@@ -1,5 +1,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import { ApolloClient, createHttpLink, InMemoryCache, gql } from "@apollo/client";
+import { setContext } from '@apollo/client/link/context';
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
@@ -66,4 +68,29 @@ export default function Home() {
       </footer>
     </div>
   )
+}
+
+export async function getStaticProps() {
+  const httpLink = createHttpLink({
+    uri: 'https://api.github.com/graphql',
+  });
+
+  const authLink = setContext((_, { headers }) => {
+    return {
+      headers: {
+        ...headers,
+        authorization: `Bearer ${process.env.GITHUB_ACCESS_TOKEN}`,
+      }
+    }
+  });
+
+  const client = new ApolloClient({
+    link: authLink.concat(httpLink),
+    cache: new InMemoryCache()
+  });
+
+  return {
+    props: {
+    }
+  }
 }
