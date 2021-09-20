@@ -4,7 +4,7 @@ import { ApolloClient, createHttpLink, InMemoryCache, gql } from "@apollo/client
 import { setContext } from '@apollo/client/link/context';
 import styles from '../styles/Home.module.css'
 
-export default function Home() {
+export default function Home({ pinnedItems }) {
   return (
     <div className={styles.container}>
       <Head>
@@ -89,8 +89,36 @@ export async function getStaticProps() {
     cache: new InMemoryCache()
   });
 
+  const { data } = await client.query({
+    query: gql`
+      {
+        user(login: "colbyfayock") {
+          pinnedItems(first: 6, types: [REPOSITORY]) {
+            totalCount
+            edges {
+              node {
+                ... on Repository {
+                  name
+                  id
+                  url
+                  stargazers {
+                    totalCount
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    `
+  });
+
+  const { user } = data;
+  const pinnedItems = user.pinnedItems.edges.map(edge => edge.node);
+
   return {
     props: {
+      pinnedItems
     }
   }
 }
