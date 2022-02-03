@@ -2,6 +2,8 @@
 
 Demo for tutorial [How to Use the GitHub GraphQL API to Add Your Pinned Repositories In Next.js & React](https://www.youtube.com/watch?v=JUEw1yHJ8Ao)
 
+🚀 See Demo: https://my-pinned-repos.netlify.app/
+
 📝 Article: https://spacejelly.dev/posts/how-to-use-the-github-graphql-api-to-add-your-pinned-repositories-in-next-js-react/
 
 📺 YouTube: https://www.youtube.com/watch?v=JUEw1yHJ8Ao
